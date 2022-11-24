@@ -10,8 +10,8 @@ ENV MY_USER="phalcon" \
 	MY_GID="1000" \
 	PHP_VERSION="8.1" \
 	LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8 \
-    LC_ALL=en_US.UTF-8 \
+	LANGUAGE=en_US.UTF-8 \
+	LC_ALL=en_US.UTF-8 \
 	TZ=${LOCAL_TIMEZONE}
 
 # User and Group
@@ -20,8 +20,8 @@ RUN set -eux && \
 	useradd -u ${MY_UID} -m -s /bin/bash -g ${MY_GROUP} ${MY_USER}
 
 # Update
-RUN apt update -y && \
-    apt install -y \
+RUN apt-get update -y && \
+    apt-get install -y \
         apt-utils \
         gettext \
         git \
@@ -39,7 +39,8 @@ RUN apt update -y && \
         nano \
         sudo \
         wget \
-        zip
+        zip \
+        && rm -rf /var/lib/apt/lists/*
 
 # PECL Packages
 RUN pecl install -o -f redis && \
