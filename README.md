@@ -234,7 +234,7 @@ You should make changes custom host configurations ```./php-fpm/php-fpm.d/z-www.
 docker container restart phalcon
 ```
 
-add and/or remove phalcon site folders and files with any ftp client program in ```./phalcon/webapp``` folder.
+add and/or remove phalcon site folders and files with any ftp client program in ```./phalcon/html``` folder.
 <br />You can also visit `https://example.com` to access website after starting the containers.
 
 #### Proxy
