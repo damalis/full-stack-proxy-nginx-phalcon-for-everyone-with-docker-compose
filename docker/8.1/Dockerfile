@@ -12,7 +12,7 @@ ENV MY_USER="phalcon" \
 	LANG=en_US.UTF-8 \
 	LANGUAGE=en_US.UTF-8 \
 	LC_ALL=en_US.UTF-8 \
-	TZ=${LOCAL_TIMEZONE}
+	TZ=${TZ}
 
 # User and Group
 RUN set -eux && \
