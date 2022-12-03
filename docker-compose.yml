@@ -6,7 +6,7 @@ services:
         depends_on:
             - database        
         build: ./docker/8.1
-        image: 'phalcon/8.1-fpm'
+        #image: 'damalis/phalcon/8.1-fpm'
         working_dir: /srv
         container_name: phalcon
         networks:
