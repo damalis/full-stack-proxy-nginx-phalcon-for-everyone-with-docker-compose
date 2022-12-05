@@ -247,7 +247,7 @@ add or remove code in the ```./proxy/templates/proxy.conf.template``` file for c
 
 #### Webserver
 
-add or remove code in the ```./webserver/extra/httpd-ssl.conf``` file for custom apache2/httpd configurations
+add or remove code in the ```./webserver/extra/httpd-vhosts.conf``` file for custom apache2/httpd configurations
 
 [https://httpd.apache.org/docs/2.4/](https://httpd.apache.org/docs/2.4/)
 
