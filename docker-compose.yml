@@ -7,6 +7,7 @@ services:
         #build: ./docker/8.4
         #image: 'damalis/phalcon/8.4-fpm'
         image: phalconphp/cphalcon:v5.9.3-php8.4
+        user: root
         working_dir: /srv
         container_name: phalcon
         networks:
@@ -20,6 +21,9 @@ services:
             - type: bind
               source: ./php-fpm/php-fpm.d/z-www.conf
               target: '${PHP_INI_DIR_PREFIX}/php-fpm.d/z-www.conf'
+            - type: bind
+              source: ./packagecheck.sh
+              target: '/tmp/packagecheck.sh'
         hostname: phalcon
         restart: unless-stopped
         ports:
@@ -37,7 +41,7 @@ services:
         labels:
             - 'docker-volume-backup.stop-during-backup=true'
         command: >
-            bash -c "if [ -z \"$(php -m | grep 'psr')\" ]; then rm -fr php-psr > /dev/null 2>&1 && git clone https://github.com/jbboehr/php-psr.git && cd php-psr && /usr/local/bin/phpize && ./configure && make && make test && sudo make install && echo 'extension=psr.so' > ${PHP_INI_DIR_PREFIX}/php/conf.d/psr.ini; fi; 
+            bash -c "if [ -z \"$(php -m | grep 'psr')\" ]; then apt-get update && sh /tmp/packagecheck.sh 'git' && rm -fr php-psr > /dev/null 2>&1 && git clone https://github.com/jbboehr/php-psr.git && cd php-psr && /usr/local/bin/phpize && ./configure && make && make test && make install && echo 'extension=psr.so' > ${PHP_INI_DIR_PREFIX}/php/conf.d/psr.ini; fi; 
             grep -qxF 'date.timezone = ${LOCAL_TIMEZONE}' ${PHP_INI_DIR_PREFIX}/php/conf.d/security.ini || echo 'date.timezone = ${LOCAL_TIMEZONE}' >> ${PHP_INI_DIR_PREFIX}/php/conf.d/security.ini; php-fpm"
 
     webserver:
@@ -260,13 +264,6 @@ volumes:
         driver_opts:
             type: none
             device: ${DIRECTORY_PATH}/phalcon/html
-            o: bind
-    srv:
-        name: phalcon-srv
-        driver: local
-        driver_opts:
-            type: none
-            device: ${DIRECTORY_PATH}/phalcon/srv
             o: bind
     db:
         name: ${DATABASE_CONT_NAME}-data
